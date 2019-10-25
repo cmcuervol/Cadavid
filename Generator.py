@@ -5,12 +5,19 @@ import datetime as dt
 import pandas as pd
 
 
-def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_fin='2018-5-31'):
+def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-05-01', F_fin='2018-05-31'):
     """
     Make an aleatory table with the parametrized quantities
     INPUTS
     Trans: quantity of transactions
-    HC   : integers of Hechos contables
+    Hechos : integers of Hechos contables quantity
+    Clientes : integer of clients quantity
+    Origenes : integer of sources quantity
+    Destinos : integet of destinations quantity
+    F_ini    : initial date in format ''%Y-%m-%d' example '2018-05-01'
+    F_fin    : final date in format ''%Y-%m-%d' example '2018-05-31'
+    OUTPUTS
+    Table:  Table with the random values sorted by the three initial columns
     """
     start = dt.datetime.strptime(F_ini, '%Y-%m-%d')
     end   = dt.datetime.strptime(F_fin, '%Y-%m-%d')
@@ -26,6 +33,8 @@ def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_f
     fec = [start+dt.timedelta(days=int(F[i])) for i in range(Trans)]
 
     Table = pd.DataFrame(np.array([Hc,fec,C, O, D, T]).T, columns=['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente', 'Id_Cuenta_Origen', 'Id_Cuenta_Destino', 'Valor ($)'])
+
+    Table = Table.sort_values(['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente'], ascending=[True, True, True])
 
     return Table
 
