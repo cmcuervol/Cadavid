@@ -27,7 +27,7 @@ def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_f
 
     Table = pd.DataFrame(np.array([HC,fec,C, O, D, T]).T, columns=['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente', 'Id_Cuenta_Origen', 'Id_Cuenta_Destino', 'Valor ($)'])
 
-
+    return Table
 
 Trans = 100
 Clientes = 4
