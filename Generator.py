@@ -25,7 +25,7 @@ def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_f
 
     fec = [start+dt.timedelta(days=int(F[i])) for i in range(Trans)]
 
-    Table = pd.DataFrame(np.array([HC,fec,C, O, D, T]).T, columns=['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente', 'Id_Cuenta_Origen', 'Id_Cuenta_Destino', 'Valor ($)'])
+    Table = pd.DataFrame(np.array([Hc,fec,C, O, D, T]).T, columns=['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente', 'Id_Cuenta_Origen', 'Id_Cuenta_Destino', 'Valor ($)'])
 
     return Table
 
@@ -36,3 +36,18 @@ F_ini = '2018-5-1'
 F_fin = '2018-5-31'
 Origenes = 10
 Destinos = 10
+
+Tabla = MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_fin='2018-5-31')
+
+Ord = Tabla.sort_values(['Id_Hecho_Contable', 'Fecha_Movimiento_Contable', 'Id_Cliente'], ascending=[True, True, True])
+
+
+
+
+
+
+
+
+
+
+print("Hello world")
