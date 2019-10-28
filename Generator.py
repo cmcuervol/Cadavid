@@ -124,7 +124,7 @@ for i in range(len(Tablazo)):
     for j in range(Origenes):
         Matriz += 'array('
         for k in range(Destinos):
-            Matriz += str(Tablazo[0][3][j,k])
+            Matriz += str(Tablazo[i][3][j,k])
             if k <Destinos-1:
                 Matriz += ","
         Matriz += ")"
