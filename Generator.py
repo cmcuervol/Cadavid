@@ -3,7 +3,10 @@
 import numpy as np
 import datetime as dt
 import pandas as pd
+import argparse
+import sys, os
 
+Path = os.path.abspath(os.path.dirname(__file__))
 
 def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-05-01', F_fin='2018-05-31'):
     """
@@ -84,6 +87,52 @@ for i in range(Trans):
         delta = 0
 
     Tablazo.append(Line)
+
+
+
+x = []
+for i in range(Trans):
+    x.append(u"INSERT INTO tesis.FCT_Movimiento_Contable values ("\
+             +str(Tabla.iloc[i,0])+","\
+             +"'"+Tabla.iloc[i,1].strftime('%Y-%m-%d')+"',"\
+             +str(Tabla.iloc[i,2])+","\
+             +str(Tabla.iloc[i,3])+","\
+             +str(Tabla.iloc[i,4])+","\
+             +str(Tabla.iloc[i,5])+");"\
+            )
+a = open (os.path.join(Path,'Original.txt'), 'w')
+a.writelines( "%s\n" % str(item) for item in x )
+a.close()
+
+
+
+X = []
+for i in range(len(Tablazo)):
+    Matriz = ''
+    for j in range(Origenes):
+        Matriz += 'array('
+        for k in range(Destinos):
+            Matriz += str(Tablazo[0][3][j,k])
+            if k <Destinos-1:
+                Matriz += ","
+        Matriz += ")"
+        if j < Origenes-1:
+            Matriz += ','
+    X.append(u"INSERT INTO tesis.FCT_Movimiento_Contable_MAT select "\
+             + "'"+ Tablazo[i][0].strftime('%Y-%m-%d') + "',"\
+             + str(Tablazo[i][1]) + ","\
+             + str(Tablazo[i][2]) + ", array("\
+             + Matriz + ") from dummy;"
+            )
+
+b = open (os.path.join(Path,'Modificado.txt'), 'w')
+b.writelines( "%s\n" % str(item) for item in x )
+b.close()
+
+
+
+
+
 
 
 
