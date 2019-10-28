@@ -8,12 +8,30 @@ import sys, os
 
 Path = os.path.abspath(os.path.dirname(__file__))
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--transferencias", default=1000,       help="quantity of transactions")
+parser.add_argument("-c", "--clientes",       default=200,        help="clients quantity")
+parser.add_argument("-e", "--hechos",         default=10,         help="Hechos contables quantity")
+parser.add_argument("-i", "--inicio",         default='2018-5-1', help="initial date in format ''%Y-%m-%d' example '2018-05-01'")
+parser.add_argument("-f", "--final",          default='2018-5-31',help="final date in format ''%Y-%m-%d' example '2018-05-31'")
+parser.add_argument("-o", "--origenes",       default=10,         help="sources quantity")
+parser.add_argument("-d", "--destinos",       default=10,         help="destinations quantity")
+args = parser.parse_args()
+
+Trans    = int(args.transferencias)
+Clientes = int(args.clientes)
+Hechos   = int(args.hechos)
+F_ini    = str(args.inicio)
+F_fin    = str(args.final)
+Origenes = int(args.origenes)
+Destinos = int(args.destinos)
+
 def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-05-01', F_fin='2018-05-31'):
     """
     Make an aleatory table with the parametrized quantities
     INPUTS
-    Trans: quantity of transactions
-    Hechos : integers of Hechos contables quantity
+    Trans    : quantity of transactions
+    Hechos   : integers of Hechos contables quantity
     Clientes : integer of clients quantity
     Origenes : integer of sources quantity
     Destinos : integet of destinations quantity
@@ -41,13 +59,7 @@ def MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-05-01', F
     Table.index = np.arange(Trans)
     return Table
 
-Trans = 100
-Clientes = 4
-Hechos = 5
-F_ini = '2018-5-1'
-F_fin = '2018-5-31'
-Origenes = 10
-Destinos = 10
+
 
 Tabla = MakeTable(Trans, Hechos, Clientes, Origenes, Destinos, F_ini='2018-5-1', F_fin='2018-5-31')
 
@@ -74,7 +86,7 @@ for i in range(Trans):
        & (Tabla['Id_Hecho_Contable'][i-delta-1]         == Tabla['Id_Hecho_Contable'][i])\
        & (Tabla['Id_Cliente'][i-delta-1]                == Tabla['Id_Cliente'][i]):
         delta +=1
-        print("entré ", i)
+        # print("entré ", i)
         continue
 
     if delta >0:
@@ -83,7 +95,7 @@ for i in range(Trans):
         D_acum = np.sum(D[i-delta:i], axis=0)+D[i]
 
         Line = [Tabla['Fecha_Movimiento_Contable'][i], Tabla['Id_Cliente'][i], Tabla['Id_Hecho_Contable'][i], M_acum, C_acum,D_acum]
-        print('parchado', i)
+        # print('parchado', i)
         delta = 0
 
     Tablazo.append(Line)
@@ -126,14 +138,8 @@ for i in range(len(Tablazo)):
             )
 
 b = open (os.path.join(Path,'Modificado.txt'), 'w')
-b.writelines( "%s\n" % str(item) for item in x )
+b.writelines( "%s\n" % str(item) for item in X )
 b.close()
-
-
-
-
-
-
 
 
 print("Hello world")
