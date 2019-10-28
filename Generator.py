@@ -131,7 +131,7 @@ for i in range(len(Tablazo)):
         if j < Origenes-1:
             Matriz += ','
     X.append(u"INSERT INTO tesis.FCT_Movimiento_Contable_MAT select "\
-             + "'"+ Tablazo[i][0].strftime('%Y-%m-%d') + "',"\
+             + str(i)+",'"+ Tablazo[i][0].strftime('%Y-%m-%d') + "',"\
              + str(Tablazo[i][1]) + ","\
              + str(Tablazo[i][2]) + ", array("\
              + Matriz + ") from dummy;"
